@@ -1,12 +1,10 @@
-# Void Codebase Guide
+# QZ Codebase Guide
 
-The Void codebase is not as intimidating as it seems!
+The QZ codebase is not as intimidating as it seems!
 
-Most of Void's code lives in the folder `src/vs/workbench/contrib/void/`.
+Most of QZ's code lives in the folder `src/vs/workbench/contrib/qz/`.
 
-The purpose of this document is to explain how Void's codebase works. If you want build instructions instead, see [Contributing](https://github.com/voideditor/void/blob/main/HOW_TO_CONTRIBUTE.md).
-
-
+The purpose of this document is to explain how QZ's codebase works. If you want build instructions instead, see [Contributing](https://github.com/aqzcool/qzcode/blob/main/HOW_TO_CONTRIBUTE.md).
 
 
 
@@ -14,10 +12,12 @@ The purpose of this document is to explain how Void's codebase works. If you wan
 
 
 
-## Void Codebase Guide
+
+
+## QZ Codebase Guide
 
 ### VSCode Rundown
-Here's a VSCode rundown if you're just getting started with Void. You can also see Microsoft's [wiki](https://github.com/microsoft/vscode/wiki/Source-Code-Organization) for some pictures. VSCode is an Electron app. Electron runs two processes: a **main** process (for internals) and a **browser** process (browser means HTML in general, not just "web browser").
+Here's a VSCode rundown if you're just getting started with QZ. You can also see Microsoft's [wiki](https://github.com/microsoft/vscode/wiki/Source-Code-Organization) for some pictures. VSCode is an Electron app. Electron runs two processes: a **main** process (for internals) and a **browser** process (browser means HTML in general, not just "web browser").
 <p align="center" >
 <img src="https://github.com/user-attachments/assets/eef80306-2bfe-4cac-ba15-6156f65ab3bb" alt="Credit - https://github.com/microsoft/vscode/wiki/Source-Code-Organization" width="700px">
 </p>

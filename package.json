@@ -263,10 +263,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/vscode.git"
+    "url": "https://github.com/aqzcool/qzcode.git"
   },
   "bugs": {
-    "url": "https://github.com/microsoft/vscode/issues"
+    "url": "https://github.com/aqzcool/qzcode/issues"
   },
   "optionalDependencies": {
     "windows-foreground-love": "0.5.0"
