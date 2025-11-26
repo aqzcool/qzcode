@@ -9,7 +9,7 @@
 	/>
 </div>
 
-**QZ** 是一个开源的AI驱动代码编辑器，是Cursor的开源替代品，基于 [Void](https://github.com/voideditor/void) 项目进行二次开发。
+**QZ** 是一个开源的AI驱动代码编辑器，是Cursor的开源替代品，致力于推动中国大模型编程能力提升，推动模型市场应用。基于 [Void](https://github.com/voideditor/void) 项目进行二次开发。本项目将全部由AI通过QZ编辑器不断更新完成。
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
 [![GitHub issues](https://img.shields.io/github/issues/aqzcool/qzcode.svg)](https://github.com/aqzcool/qzcode/issues)
@@ -21,7 +21,7 @@
 - 🤖 **AI智能编程**: 使用AI代理协助代码编辑、聊天和问题解决
 - 🔄 **变更可视化**: 检查点机制，可视化代码变更历史
 - 🏠 **本地模型支持**: 支持本地部署的AI模型，保护数据隐私
-- 🔌 **多模型支持**: 兼容Anthropic、OpenAI、Ollama等多种AI提供商，支持国内厂商 Anthropic 兼容端点
+- 🔌 **多模型支持**: 兼容Anthropic、OpenAI、Ollama等多种AI提供商，支持中国厂商（智谱AI，kimi,minimax,阿里千问，deepseek）的 Anthropic 兼容端点
 - 📊 **实时协作**: 实时同步代码变更和AI建议
 - 🛡️ **隐私保护**: 直接与AI提供商通信，不保留用户数据
 
