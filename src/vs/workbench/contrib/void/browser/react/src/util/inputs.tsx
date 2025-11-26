@@ -2021,6 +2021,12 @@ export const VoidEndpointSelector = ({
 			desc: '官方 Anthropic API 端点'
 		},
 		{
+			id: 'deepseek',
+			name: 'DeepSeek',
+			endpoint: 'https://api.deepseek.com/anthropic',
+			desc: 'DeepSeek 的 Anthropic 兼容端点'
+		},
+		{
 			id: 'zhipu',
 			name: '智谱 GLM',
 			endpoint: 'https://open.bigmodel.cn/api/anthropic',
