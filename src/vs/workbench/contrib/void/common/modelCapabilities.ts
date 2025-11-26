@@ -12,6 +12,7 @@ import { FeatureName, ModelSelectionOptions, OverridesOfModel, ProviderName } fr
 export const defaultProviderSettings = {
 	anthropic: {
 		apiKey: '',
+		endpoint: 'https://api.anthropic.com',
 	},
 	openAI: {
 		apiKey: '',
@@ -84,8 +85,10 @@ export const defaultModelsOfProvider = {
 		// 'gpt-4o-mini',
 	],
 	anthropic: [ // https://docs.anthropic.com/en/docs/about-claude/models
-		'claude-opus-4-0',
-		'claude-sonnet-4-0',
+		'claude-sonnet-4-5-20250929',
+		'claude-haiku-4-5-20251001',
+		'claude-opus-4-5-20251101',
+		'claude-opus-4-1-20250805',
 		'claude-3-7-sonnet-latest',
 		'claude-3-5-sonnet-latest',
 		'claude-3-5-haiku-latest',
@@ -416,6 +419,14 @@ const extensiveModelOptionsFallback: VoidStaticProviderInfo['modelOptionsFallbac
 
 	if (lower.includes('gemini') && (lower.includes('2.5') || lower.includes('2-5'))) return toFallback(geminiModelOptions, 'gemini-2.5-pro-exp-03-25')
 
+	// Handle new Claude 4.5 models first
+	if (lower.includes('claude-sonnet-4-5') || lower.includes('claude-opus-4-5') || lower.includes('claude-haiku-4-5')) {
+		if (lower.includes('sonnet')) return toFallback(anthropicModelOptions, 'claude-sonnet-4-5-20250929')
+		if (lower.includes('opus')) return toFallback(anthropicModelOptions, 'claude-opus-4-5-20251101')
+		if (lower.includes('haiku')) return toFallback(anthropicModelOptions, 'claude-haiku-4-5-20251001')
+	}
+	if (lower.includes('claude-opus-4-1')) return toFallback(anthropicModelOptions, 'claude-opus-4-1-20250805')
+	
 	if (lower.includes('claude-3-5') || lower.includes('claude-3.5')) return toFallback(anthropicModelOptions, 'claude-3-5-sonnet-20241022')
 	if (lower.includes('claude')) return toFallback(anthropicModelOptions, 'claude-3-7-sonnet-20250219')
 
@@ -477,6 +488,70 @@ const extensiveModelOptionsFallback: VoidStaticProviderInfo['modelOptionsFallbac
 
 // ---------------- ANTHROPIC ----------------
 const anthropicModelOptions = {
+	'claude-sonnet-4-5-20250929': { // Latest Claude Sonnet 4.5 - Our smartest model for complex agents and coding, best balance of intelligence, speed, and cost
+		contextWindow: 1_000_000, // Supports 1M token context window with beta header
+		reservedOutputTokenSpace: 8_192,
+		cost: { input: 3.00, cache_read: 0.30, cache_write: 3.75, output: 15.00 },
+		downloadable: false,
+		supportsFIM: false,
+		specialToolFormat: 'anthropic-style',
+		supportsSystemMessage: 'separated',
+		reasoningCapabilities: {
+			supportsReasoning: true,
+			canTurnOffReasoning: true,
+			canIOReasoning: true,
+			reasoningReservedOutputTokenSpace: 8192,
+			reasoningSlider: { type: 'budget_slider', min: 1024, max: 8192, default: 1024 },
+		},
+	},
+	'claude-haiku-4-5-20251001': { // Latest Claude Haiku 4.5 - Our fastest model with near-frontier intelligence
+		contextWindow: 200_000,
+		reservedOutputTokenSpace: 8_192,
+		cost: { input: 1.00, cache_read: 0.10, cache_write: 1.25, output: 5.00 },
+		downloadable: false,
+		supportsFIM: false,
+		specialToolFormat: 'anthropic-style',
+		supportsSystemMessage: 'separated',
+		reasoningCapabilities: {
+			supportsReasoning: true,
+			canTurnOffReasoning: true,
+			canIOReasoning: true,
+			reasoningReservedOutputTokenSpace: 8192,
+			reasoningSlider: { type: 'budget_slider', min: 1024, max: 8192, default: 1024 },
+		},
+	},
+	'claude-opus-4-5-20251101': { // Latest Claude Opus 4.5 - Premium model combining maximum intelligence with practical performance
+		contextWindow: 200_000,
+		reservedOutputTokenSpace: 8_192,
+		cost: { input: 5.00, cache_read: 0.50, cache_write: 6.25, output: 25.00 },
+		downloadable: false,
+		supportsFIM: false,
+		specialToolFormat: 'anthropic-style',
+		supportsSystemMessage: 'separated',
+		reasoningCapabilities: {
+			supportsReasoning: true,
+			canTurnOffReasoning: true,
+			canIOReasoning: true,
+			reasoningReservedOutputTokenSpace: 8192,
+			reasoningSlider: { type: 'budget_slider', min: 1024, max: 8192, default: 1024 },
+		},
+	},
+	'claude-opus-4-1-20250805': { // Claude Opus 4.1 - Exceptional model for specialized reasoning tasks
+		contextWindow: 200_000,
+		reservedOutputTokenSpace: 8_192,
+		cost: { input: 15.00, cache_read: 1.50, cache_write: 18.75, output: 75.00 },
+		downloadable: false,
+		supportsFIM: false,
+		specialToolFormat: 'anthropic-style',
+		supportsSystemMessage: 'separated',
+		reasoningCapabilities: {
+			supportsReasoning: true,
+			canTurnOffReasoning: true,
+			canIOReasoning: true,
+			reasoningReservedOutputTokenSpace: 8192,
+			reasoningSlider: { type: 'budget_slider', min: 1024, max: 8192, default: 1024 },
+		},
+	},
 	'claude-3-7-sonnet-20250219': { // https://docs.anthropic.com/en/docs/about-claude/models/all-models#model-comparison-table
 		contextWindow: 200_000,
 		reservedOutputTokenSpace: 8_192,
@@ -586,15 +661,28 @@ const anthropicSettings: VoidStaticProviderInfo = {
 	modelOptionsFallback: (modelName) => {
 		const lower = modelName.toLowerCase()
 		let fallbackName: keyof typeof anthropicModelOptions | null = null
-		if (lower.includes('claude-4-opus') || lower.includes('claude-opus-4')) fallbackName = 'claude-opus-4-20250514'
-		if (lower.includes('claude-4-sonnet') || lower.includes('claude-sonnet-4')) fallbackName = 'claude-sonnet-4-20250514'
-
-
-		if (lower.includes('claude-3-7-sonnet')) fallbackName = 'claude-3-7-sonnet-20250219'
-		if (lower.includes('claude-3-5-sonnet')) fallbackName = 'claude-3-5-sonnet-20241022'
-		if (lower.includes('claude-3-5-haiku')) fallbackName = 'claude-3-5-haiku-20241022'
-		if (lower.includes('claude-3-opus')) fallbackName = 'claude-3-opus-20240229'
-		if (lower.includes('claude-3-sonnet')) fallbackName = 'claude-3-sonnet-20240229'
+		// Handle new Claude 4.5 models first
+		if (lower.includes('claude-sonnet-4-5') || lower.includes('claude-opus-4-5') || lower.includes('claude-haiku-4-5')) {
+			if (lower.includes('sonnet')) fallbackName = 'claude-sonnet-4-5-20250929'
+			else if (lower.includes('opus')) fallbackName = 'claude-opus-4-5-20251101'
+			else if (lower.includes('haiku')) fallbackName = 'claude-haiku-4-5-20251001'
+		} else if (lower.includes('claude-opus-4-1')) {
+			fallbackName = 'claude-opus-4-1-20250805'
+		} else if (lower.includes('claude-4-opus') || lower.includes('claude-opus-4')) {
+			fallbackName = 'claude-opus-4-20250514'
+		} else if (lower.includes('claude-4-sonnet') || lower.includes('claude-sonnet-4')) {
+			fallbackName = 'claude-sonnet-4-20250514'
+		} else if (lower.includes('claude-3-7-sonnet')) {
+			fallbackName = 'claude-3-7-sonnet-20250219'
+		} else if (lower.includes('claude-3-5-sonnet')) {
+			fallbackName = 'claude-3-5-sonnet-20241022'
+		} else if (lower.includes('claude-3-5-haiku')) {
+			fallbackName = 'claude-3-5-haiku-20241022'
+		} else if (lower.includes('claude-3-opus')) {
+			fallbackName = 'claude-3-opus-20240229'
+		} else if (lower.includes('claude-3-sonnet')) {
+			fallbackName = 'claude-3-sonnet-20240229'
+		}
 		if (fallbackName) return { modelName: fallbackName, recognizedModelName: fallbackName, ...anthropicModelOptions[fallbackName] }
 		return null
 	},

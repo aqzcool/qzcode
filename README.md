@@ -9,7 +9,7 @@
 	/>
 </div>
 
-**QZ** 是一个开源的AI驱动代码编辑器，是Cursor的开源替代品。
+**QZ** 是一个开源的AI驱动代码编辑器，是Cursor的开源替代品，基于 [Void](https://github.com/voideditor/void) 项目进行二次开发。
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
 [![GitHub issues](https://img.shields.io/github/issues/aqzcool/qzcode.svg)](https://github.com/aqzcool/qzcode/issues)

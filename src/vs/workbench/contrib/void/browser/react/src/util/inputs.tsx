@@ -1988,9 +1988,160 @@ export const VoidDiffEditor = ({ uri, searchReplaceBlocks, language }: { uri?: a
 							Change {index + 1} of {blocks.length}
 						</div>
 					)}
-					<SingleDiffEditor block={block} lang={lang} />
+                                        <SingleDiffEditor block={block} lang={lang} />
+                                </div>
+                        ))}
+                </div>
+        );
+};
+
+// Anthropic 端点选择器组件
+export const VoidEndpointSelector = ({
+	value,
+	onChangeValue,
+	placeholder,
+	compact = false,
+	className,
+}: {
+	value: string;
+	onChangeValue: (newVal: string) => void;
+	placeholder?: string;
+	compact?: boolean;
+	className?: string;
+}) => {
+	const [isCustomMode, setIsCustomMode] = useState(false);
+	const [customEndpoint, setCustomEndpoint] = useState(value);
+
+	// 预设的 Anthropic 兼容端点
+	const presetEndpoints = [
+		{
+			id: 'anthropic-official',
+			name: 'Anthropic 官方',
+			endpoint: 'https://api.anthropic.com',
+			desc: '官方 Anthropic API 端点'
+		},
+		{
+			id: 'zhipu',
+			name: '智谱 GLM',
+			endpoint: 'https://open.bigmodel.cn/api/anthropic',
+			desc: '智谱 AI 的 Anthropic 兼容端点'
+		},
+		{
+			id: 'minimax',
+			name: 'MiniMax',
+			endpoint: 'https://api.minimaxi.com/anthropic',
+			desc: 'MiniMax 的 Anthropic 兼容端点'
+		},
+		{
+			id: 'alibaba',
+			name: '阿里百炼',
+			endpoint: 'https://dashscope.aliyuncs.com/apps/anthropic',
+			desc: '阿里云百炼的 Anthropic 兼容端点'
+		},
+		{
+			id: 'kimi',
+			name: 'Kimi',
+			endpoint: 'https://api.moonshot.cn/anthropic',
+			desc: '月之暗面 Kimi 的 Anthropic 兼容端点'
+		}
+	];
+
+	// 检查当前值是否为预设值
+	const currentPreset = presetEndpoints.find(preset => preset.endpoint === value);
+	const displayValue = currentPreset?.name || (isCustomMode ? customEndpoint : value);
+
+	// 处理预设端点选择
+	const handlePresetSelect = (endpoint: string) => {
+		onChangeValue(endpoint);
+		setIsCustomMode(false);
+	};
+
+	// 切换到自定义模式
+	const switchToCustomMode = () => {
+		setCustomEndpoint(value);
+		setIsCustomMode(true);
+	};
+
+	// 处理自定义端点输入
+	const handleCustomEndpointChange = (newVal: string) => {
+		setCustomEndpoint(newVal);
+		onChangeValue(newVal);
+	};
+
+	// 处理自定义模式保存
+	const handleCustomSave = () => {
+		if (customEndpoint.trim()) {
+			onChangeValue(customEndpoint.trim());
+			setIsCustomMode(false);
+		}
+	};
+
+	// 处理取消自定义
+	const handleCustomCancel = () => {
+		setCustomEndpoint(value);
+		setIsCustomMode(false);
+	};
+
+	return (
+		<div className={`flex flex-col gap-2 ${className}`}>
+			{/* 端点选择器 */}
+			<div className="flex gap-2">
+				{/* 下拉选择框 */}
+				<VoidCustomDropdownBox
+					options={presetEndpoints}
+					selectedOption={currentPreset}
+					onChangeOption={(preset) => handlePresetSelect(preset.endpoint)}
+					getOptionDisplayName={(preset) => preset.name}
+					getOptionDropdownName={(preset) => preset.name}
+					getOptionDropdownDetail={(preset) => preset.desc}
+					getOptionsEqual={(a, b) => a.id === b.id}
+					className={`flex-1 ${compact ? 'text-xs py-1' : ''}`}
+					arrowTouchesText={false}
+				/>
+				
+				{/* 自定义端点按钮 */}
+				<VoidButtonBgDarken
+					onClick={switchToCustomMode}
+					className={`px-2 ${compact ? 'py-1 text-xs' : 'py-2 text-sm'} whitespace-nowrap`}
+				>
+					自定义
+				</VoidButtonBgDarken>
+			</div>
+
+			{/* 当前选择的端点显示 */}
+			<div className="text-xs text-void-fg-3 px-2">
+				当前端点: {displayValue}
+			</div>
+
+			{/* 自定义端点输入区域 */}
+			{isCustomMode && (
+				<div className="flex flex-col gap-2 p-3 border border-void-border-2 rounded-sm bg-void-bg-2">
+					<div className="text-sm font-medium">自定义端点</div>
+					<VoidSimpleInputBox
+						value={customEndpoint}
+						onChangeValue={handleCustomEndpointChange}
+						placeholder={placeholder || '请输入自定义端点URL'}
+						compact={compact}
+					/>
+					<div className="flex gap-2">
+						<VoidButtonBgDarken
+							onClick={handleCustomSave}
+							className="px-3 py-1 text-xs bg-[#0e70c0] text-white"
+						>
+							保存
+						</VoidButtonBgDarken>
+						<VoidButtonBgDarken
+							onClick={handleCustomCancel}
+							className="px-3 py-1 text-xs"
+						>
+							取消
+						</VoidButtonBgDarken>
+					</div>
+					<div className="text-xs text-void-fg-3">
+						请输入 Anthropic 兼容的 API 端点 URL
+					</div>
 				</div>
-			))}
+			)}
 		</div>
 	);
 };

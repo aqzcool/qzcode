@@ -112,7 +112,7 @@ export const displayInfoOfProviderName = (providerName: ProviderName): DisplayIn
 
 export const subTextMdOfProviderName = (providerName: ProviderName): string => {
 
-	if (providerName === 'anthropic') return 'Get your [API Key here](https://console.anthropic.com/settings/keys).'
+	if (providerName === 'anthropic') return 'Get your [API Key here](https://console.anthropic.com/settings/keys). You can use the official Anthropic endpoint or compatible endpoints from providers like Zhipu, MiniMax, Alibaba, and Kimi.'
 	if (providerName === 'openAI') return 'Get your [API Key here](https://platform.openai.com/api-keys).'
 	if (providerName === 'deepseek') return 'Get your [API Key here](https://platform.deepseek.com/api_keys).'
 	if (providerName === 'openRouter') return 'Get your [API Key here](https://openrouter.ai/settings/keys). Read about [rate limits here](https://openrouter.ai/docs/api-reference/limits).'
@@ -166,20 +166,22 @@ export const displayInfoOfSettingName = (providerName: ProviderName, settingName
 			title: providerName === 'ollama' ? 'Endpoint' :
 				providerName === 'vLLM' ? 'Endpoint' :
 					providerName === 'lmStudio' ? 'Endpoint' :
-						providerName === 'openAICompatible' ? 'baseURL' : // (do not include /chat/completions)
-							providerName === 'googleVertex' ? 'baseURL' :
-								providerName === 'microsoftAzure' ? 'baseURL' :
-									providerName === 'liteLLM' ? 'baseURL' :
-										providerName === 'awsBedrock' ? 'Endpoint' :
-											'(never)',
+						providerName === 'anthropic' ? 'Endpoint' :
+							providerName === 'openAICompatible' ? 'baseURL' : // (do not include /chat/completions)
+								providerName === 'googleVertex' ? 'baseURL' :
+									providerName === 'microsoftAzure' ? 'baseURL' :
+										providerName === 'liteLLM' ? 'baseURL' :
+											providerName === 'awsBedrock' ? 'Endpoint' :
+												'(never)',
 
 			placeholder: providerName === 'ollama' ? defaultProviderSettings.ollama.endpoint
 				: providerName === 'vLLM' ? defaultProviderSettings.vLLM.endpoint
-					: providerName === 'openAICompatible' ? 'https://my-website.com/v1'
-						: providerName === 'lmStudio' ? defaultProviderSettings.lmStudio.endpoint
-							: providerName === 'liteLLM' ? 'http://localhost:4000'
-								: providerName === 'awsBedrock' ? 'http://localhost:4000/v1'
-									: '(never)',
+					: providerName === 'anthropic' ? defaultProviderSettings.anthropic.endpoint
+						: providerName === 'openAICompatible' ? 'https://my-website.com/v1'
+							: providerName === 'lmStudio' ? defaultProviderSettings.lmStudio.endpoint
+								: providerName === 'liteLLM' ? 'http://localhost:4000'
+									: providerName === 'awsBedrock' ? 'http://localhost:4000/v1'
+										: '(never)',
 
 
 		}
