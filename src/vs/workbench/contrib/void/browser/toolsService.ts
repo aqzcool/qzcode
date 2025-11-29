@@ -233,11 +233,12 @@ export class ToolsService implements IToolsService {
 			// ---
 
 			create_file_or_folder: (params: RawToolParamsObj) => {
-				const { uri: uriUnknown } = params
+				const { uri: uriUnknown, content: contentUnknown } = params
 				const uri = validateURI(uriUnknown)
 				const uriStr = validateStr('uri', uriUnknown)
 				const isFolder = checkIfIsFolder(uriStr)
-				return { uri, isFolder }
+				const content = validateOptionalStr('content', contentUnknown)
+				return { uri, isFolder, content }
 			},
 
 			delete_file_or_folder: (params: RawToolParamsObj) => {
@@ -396,11 +397,17 @@ export class ToolsService implements IToolsService {
 
 			// ---
 
-			create_file_or_folder: async ({ uri, isFolder }) => {
-				if (isFolder)
+			create_file_or_folder: async ({ uri, isFolder, content }) => {
+				if (isFolder) {
 					await fileService.createFolder(uri)
-				else {
+				} else {
 					await fileService.createFile(uri)
+					// If content is provided, write it to the file
+					if (content !== null) {
+						await voidModelService.initializeModel(uri)
+						await editCodeService.callBeforeApplyOrEdit(uri)
+						editCodeService.instantlyRewriteFile({ uri, newContent: content })
+					}
 				}
 				return { result: {} }
 			},
@@ -411,6 +418,14 @@ export class ToolsService implements IToolsService {
 			},
 
 			rewrite_file: async ({ uri, newContent }) => {
+				// Check if file exists, if not create it first
+				try {
+					await fileService.stat(uri)
+				} catch (e) {
+					// File doesn't exist, create it
+					await fileService.createFile(uri)
+				}
+
 				await voidModelService.initializeModel(uri)
 				if (this.commandBarService.getStreamState(uri) === 'streaming') {
 					throw new Error(`Another LLM is currently making changes to this file. Please stop streaming for now and ask the user to resume later.`)

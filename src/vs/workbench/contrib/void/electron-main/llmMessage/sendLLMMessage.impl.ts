@@ -481,6 +481,7 @@ const sendAnthropicChat = async ({ messages, providerName, onText, onFinalMessag
 	// instance
 	const anthropic = new Anthropic({
 		apiKey: thisConfig.apiKey,
+		baseURL: thisConfig.endpoint,
 		dangerouslyAllowBrowser: true
 	});
 

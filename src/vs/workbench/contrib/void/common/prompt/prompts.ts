@@ -271,9 +271,10 @@ export const builtinTools: {
 
 	create_file_or_folder: {
 		name: 'create_file_or_folder',
-		description: `Create a file or folder at the given path. To create a folder, the path MUST end with a trailing slash.`,
+		description: `Create a file or folder at the given path. To create a folder, the path MUST end with a trailing slash. You can optionally provide content to write to the file immediately after creation.`,
 		params: {
 			...uriParam('file or folder'),
+			content: { description: 'Optional. The initial content to write to the file. Only used when creating a file (not a folder).' }
 		},
 	},
 
@@ -297,7 +298,7 @@ export const builtinTools: {
 
 	rewrite_file: {
 		name: 'rewrite_file',
-		description: `Edits a file, deleting all the old contents and replacing them with your new contents. Use this tool if you want to edit a file you just created.`,
+		description: `Edits a file, deleting all the old contents and replacing them with your new contents. If the file does not exist, it will be created automatically. Use this tool if you want to edit a file you just created or to create a new file with content.`,
 		params: {
 			...uriParam('file'),
 			new_content: { description: `The new contents of the file. Must be a string.` }
