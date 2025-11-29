@@ -101,6 +101,14 @@ export const ActiveViewletContext = new RawContextKey<string>('activeViewlet', '
 //#endregion
 
 
+//#region < --- Chat --- >
+
+export const ChatVisibleContext = new RawContextKey<boolean>('chatVisible', false, localize('chatVisible', "Whether the chat panel is visible"));
+export const ChatFocusContext = new RawContextKey<boolean>('chatFocus', false, localize('chatFocus', "Whether the chat panel has keyboard focus"));
+
+//#endregion
+
+
 //#region < --- Status Bar --- >
 
 export const StatusBarFocused = new RawContextKey<boolean>('statusBarFocused', false, localize('statusBarFocused', "Whether the status bar has keyboard focus"));

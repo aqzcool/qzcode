@@ -177,6 +177,9 @@ import './contrib/emergencyAlert/electron-sandbox/emergencyAlert.contribution.js
 // MCP
 import './contrib/mcp/electron-sandbox/mcp.contribution.js';
 
+// Quiz
+import './contrib/quiz/browser/quiz.contribution.js';
+
 //#endregion
 
 

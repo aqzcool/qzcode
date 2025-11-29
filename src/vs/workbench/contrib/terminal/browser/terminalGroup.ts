@@ -566,6 +566,8 @@ export class TerminalGroup extends Disposable implements ITerminalGroup {
 				return this._panelPosition;
 			case ViewContainerLocation.Sidebar:
 				return this._layoutService.getSideBarPosition();
+			case ViewContainerLocation.ChatColumn:
+				return Position.LEFT;
 			case ViewContainerLocation.AuxiliaryBar:
 				return this._layoutService.getSideBarPosition() === Position.LEFT ? Position.RIGHT : Position.LEFT;
 		}

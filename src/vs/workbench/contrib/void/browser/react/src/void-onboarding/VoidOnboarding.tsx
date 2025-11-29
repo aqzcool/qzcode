@@ -593,30 +593,103 @@ const VoidOnboardingContent = () => {
 
 
 	const contentOfIdx: { [pageIndex: number]: React.ReactNode } = {
-		0: <OnboardingPageShell
-			content={
-				<div className='flex flex-col items-center gap-8'>
-					<div className="text-5xl font-light text-center">Welcome to QZ</div>
+		0: <div className="h-[80vh] w-full flex flex-col items-center justify-center relative overflow-hidden">
+			{/* Background Ambience */}
+			<div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-800/20 via-void-bg-3 to-void-bg-3 z-0"></div>
+			<div className="absolute top-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+			<div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
 
-					{/* Slice of QZ image */}
-					<div className='max-w-md w-full h-[30vh] mx-auto flex items-center justify-center'>
-						{!isLinux && <VoidIcon />}
+			<FadeIn className="z-10 flex flex-col items-center max-w-5xl text-center space-y-10 p-6">
+				{/* The Dual Brain Visual */}
+				<div className="flex items-center gap-6 md:gap-12 relative mb-4">
+					{/* Left: Architect */}
+					<div className="relative group" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '0s' }}>
+						<div className="absolute inset-0 bg-purple-600/20 blur-2xl rounded-full group-hover:bg-purple-600/30 transition-all duration-700"></div>
+						<div className="w-28 h-28 md:w-36 md:h-36 bg-void-bg-2 border border-purple-500/30 rounded-3xl flex flex-col items-center justify-center relative z-10 shadow-2xl backdrop-blur-sm group-hover:border-purple-500/60 transition-colors">
+							<Brain size={42} className="text-purple-400 mb-2" />
+							<span className="text-[10px] font-bold text-purple-300 tracking-widest uppercase">Architect</span>
+						</div>
 					</div>
 
+					{/* Center: Connection */}
+					<div className="flex flex-col items-center gap-2 opacity-60">
+						<div className="w-10 md:w-20 h-0.5 bg-gradient-to-r from-purple-500/50 to-cyan-500/50"></div>
+						<div className="w-6 h-6 rounded-full bg-void-bg-1 border border-void-border-3 flex items-center justify-center z-20">
+							<div className="w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
+						</div>
+						<div className="w-10 md:w-20 h-0.5 bg-gradient-to-r from-purple-500/50 to-cyan-500/50"></div>
+					</div>
 
-					<FadeIn
-						delayMs={1000}
-					>
-						<PrimaryActionButton
-							onClick={() => { setPageIndex(1) }}
-						>
-							Get Started
-						</PrimaryActionButton>
-					</FadeIn>
-
+					{/* Right: Coder */}
+					<div className="relative group" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }}>
+						<div className="absolute inset-0 bg-cyan-600/20 blur-2xl rounded-full group-hover:bg-cyan-600/30 transition-all duration-700"></div>
+						<div className="w-28 h-28 md:w-36 md:h-36 bg-void-bg-2 border border-cyan-500/30 rounded-3xl flex flex-col items-center justify-center relative z-10 shadow-2xl backdrop-blur-sm group-hover:border-cyan-500/60 transition-colors">
+							<Brain size={42} className="text-cyan-400 mb-2" />
+							<span className="text-[10px] font-bold text-cyan-300 tracking-widest uppercase">Coder</span>
+						</div>
+					</div>
 				</div>
-			}
-		/>,
+
+				{/* Brand Content */}
+				<div className="space-y-2 max-w-3xl">
+					<h1 className="text-7xl md:text-9xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-white to-cyan-400 tracking-tighter pb-4">
+						QZ
+					</h1>
+					<div className="flex items-center justify-center gap-3 text-gray-500 font-mono text-sm tracking-[0.5em] uppercase">
+						<span>QZ.COOL</span>
+					</div>
+
+					<p className="text-gray-400/80 text-lg pt-4 max-w-xl mx-auto font-light">
+						The Dual-Brain Code Studio where <span className="text-purple-400">Architecture</span> meets <span className="text-cyan-400">Execution</span>.
+					</p>
+				</div>
+
+				{/* Feature Grid */}
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full text-left max-w-4xl mt-8">
+					<div className="p-4 rounded-xl bg-void-bg-2/50 border border-void-border-3/50 hover:border-purple-500/30 transition-all group">
+						<div className="flex items-center gap-3 mb-2 text-gray-300 font-semibold group-hover:text-purple-300 transition-colors">
+							<Brain size={18} />
+							<span>Deep Thought</span>
+						</div>
+						<p className="text-xs text-gray-500 leading-relaxed">Architect analyzes requirements and plans structure.</p>
+					</div>
+					<div className="p-4 rounded-xl bg-void-bg-2/50 border border-void-border-3/50 hover:border-cyan-500/30 transition-all group">
+						<div className="flex items-center gap-3 mb-2 text-gray-300 font-semibold group-hover:text-cyan-300 transition-colors">
+							<Brain size={18} />
+							<span>Precision Code</span>
+						</div>
+						<p className="text-xs text-gray-500 leading-relaxed">Coder implements the plan with high-reasoning capabilities.</p>
+					</div>
+					<div className="p-4 rounded-xl bg-void-bg-2/50 border border-void-border-3/50 hover:border-white/30 transition-all group">
+						<div className="flex items-center gap-3 mb-2 text-gray-300 font-semibold group-hover:text-white transition-colors">
+							<Check size={18} />
+							<span>Auto-Review</span>
+						</div>
+						<p className="text-xs text-gray-500 leading-relaxed">Continuous audit loop ensures code quality and correctness.</p>
+					</div>
+				</div>
+
+				{/* CTA */}
+				<div className="pt-8">
+					<FadeIn delayMs={1000}>
+						<button
+							onClick={() => { setPageIndex(1) }}
+							className="group relative px-10 py-4 bg-white text-black font-bold text-lg rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_-15px_rgba(255,255,255,0.4)] cursor-pointer"
+						>
+							<div className="absolute inset-0 bg-gradient-to-r from-purple-200 to-cyan-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-multiply"></div>
+							<span className="flex items-center gap-2 relative z-10">
+								Initialize Workspace
+								<ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+							</span>
+						</button>
+					</FadeIn>
+				</div>
+
+				<div className="absolute bottom-6 text-[10px] text-gray-700 font-mono tracking-widest opacity-50">
+					QZ.COOL &copy; {new Date().getFullYear()}
+				</div>
+			</FadeIn>
+		</div>,
 
 		1: <OnboardingPageShell hasMaxWidth={false}
 			content={

@@ -1,0 +1,160 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+/* Quiz layout customization - positions the auxiliary bar (QUIZ) between sidebar and editor */
+
+.workbench.quiz-layout-enabled {
+	--quiz-column-width: 300px;
+}
+
+/* Reorder grid layout to: Sidebar | QUIZ | Editor | AuxiliaryBar */
+.workbench.quiz-layout-enabled > .monaco-grid-view {
+	display: grid;
+	grid-template-columns: auto var(--quiz-column-width) 1fr auto;
+	grid-template-rows: 1fr;
+}
+
+/* Position parts in the new grid layout */
+.workbench.quiz-layout-enabled > .monaco-grid-view > .part.sidebar {
+	grid-column: 1;
+	grid-row: 1;
+	order: 1;
+}
+
+.workbench.quiz-layout-enabled > .monaco-grid-view > .part.editor {
+	grid-column: 3;
+	grid-row: 1;
+	order: 3;
+}
+
+.workbench.quiz-layout-enabled > .monaco-grid-view > .part.auxiliarybar {
+	grid-column: 4;
+	grid-row: 1;
+	order: 4;
+}
+
+/* Quiz panel styling */
+.quiz-layout {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.quiz-operatives-column {
+	flex: 0 0 180px;
+	border-right: 1px solid var(--vscode-panel-border);
+	overflow-y: auto;
+	background-color: var(--vscode-sideBar-background);
+}
+
+.quiz-operatives-header {
+	padding: 8px 12px;
+	font-size: 11px;
+	font-weight: bold;
+	color: var(--vscode-sideBar-foreground);
+	border-bottom: 1px solid var(--vscode-panel-border);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	background-color: var(--vscode-sideBar-background);
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+.quiz-operatives-list {
+	padding: 4px;
+}
+
+.quiz-operatives-list > div {
+	padding: 8px;
+	font-size: 12px;
+	color: var(--vscode-sideBar-foreground);
+	cursor: pointer;
+	border-radius: 4px;
+	margin-bottom: 4px;
+	transition: background-color 0.2s;
+}
+
+.quiz-operatives-list > div:hover {
+	background-color: var(--vscode-list-hoverBackground);
+}
+
+.quiz-chat-column {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--vscode-editor-background);
+}
+
+.quiz-chat-header {
+	padding: 8px 12px;
+	font-size: 11px;
+	font-weight: bold;
+	color: var(--vscode-editor-foreground);
+	border-bottom: 1px solid var(--vscode-panel-border);
+	background-color: var(--vscode-sideBar-background);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.quiz-chat-messages {
+	flex: 1;
+	overflow-y: auto;
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.quiz-chat-messages > div {
+	padding: 8px;
+	background-color: var(--vscode-inputOption-activeBorder);
+	border-radius: 4px;
+	font-size: 12px;
+	color: var(--vscode-editor-foreground);
+}
+
+.quiz-chat-messages > div > div:first-child {
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.quiz-chat-messages > div > div:last-child {
+	opacity: 0.8;
+}
+
+.quiz-chat-input {
+	padding: 12px;
+	border-top: 1px solid var(--vscode-panel-border);
+	background-color: var(--vscode-sideBar-background);
+}
+
+.quiz-chat-input input {
+	flex: 1;
+	padding: 8px;
+	border: 1px solid var(--vscode-input-border);
+	border-radius: 4px;
+	background-color: var(--vscode-input-background);
+	color: var(--vscode-input-foreground);
+	font-size: 12px;
+}
+
+.quiz-chat-input button {
+	padding: 8px 16px;
+	background-color: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+	transition: background-color 0.2s;
+}
+
+.quiz-chat-input button:hover {
+	background-color: var(--vscode-button-hoverBackground);
+}

@@ -55,6 +55,7 @@ import { IHoverDelegate } from '../../../../base/browser/ui/hover/hoverDelegate.
 import { CommandsRegistry } from '../../../../platform/commands/common/commands.js';
 import { safeIntl } from '../../../../base/common/date.js';
 import { TitleBarVisibleContext } from '../../../common/contextkeys.js';
+import { ChatToggleButton } from './chatToggleButton.js';
 
 export interface ITitleVariable {
 	readonly name: string;
@@ -462,6 +463,14 @@ export class BrowserTitlebarPart extends Part implements ITitlebarPart {
 		// Title
 		this.title = append(this.centerContent, $('div.window-title'));
 		this.createTitle();
+
+		// Create Chat Toggle Button
+		if (!this.isAuxiliary) {
+			const chatButtonContainer = append(this.rightContent, $('div.chat-toggle-container'));
+			chatButtonContainer.style.display = 'flex';
+			chatButtonContainer.style.alignItems = 'center';
+			this._register(new ChatToggleButton(chatButtonContainer, this.layoutService));
+		}
 
 		// Create Toolbar Actions
 		if (hasCustomTitlebar(this.configurationService, this.titleBarStyle)) {

@@ -1,0 +1,5 @@
+{
+  "name": "QZ.COOL - Dual Brain Code Studio",
+  "description": "A futuristic dual-model code editor where the Architect (Gemini 2.5 Flash) plans and the Coder (Gemini 3.0 Pro) executes.",
+  "requestFramePermissions": []
+}

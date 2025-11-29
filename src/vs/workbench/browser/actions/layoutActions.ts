@@ -22,7 +22,7 @@ import { IPaneCompositePartService } from '../../services/panecomposite/browser/
 import { ToggleAuxiliaryBarAction } from '../parts/auxiliarybar/auxiliaryBarActions.js';
 import { TogglePanelAction } from '../parts/panel/panelActions.js';
 import { ICommandService } from '../../../platform/commands/common/commands.js';
-import { AuxiliaryBarVisibleContext, PanelAlignmentContext, PanelVisibleContext, SideBarVisibleContext, FocusedViewContext, InEditorZenModeContext, IsMainEditorCenteredLayoutContext, MainEditorAreaVisibleContext, IsMainWindowFullscreenContext, PanelPositionContext, IsAuxiliaryWindowFocusedContext, TitleBarStyleContext } from '../../common/contextkeys.js';
+import { AuxiliaryBarVisibleContext, ChatVisibleContext, PanelAlignmentContext, PanelVisibleContext, SideBarVisibleContext, FocusedViewContext, InEditorZenModeContext, IsMainEditorCenteredLayoutContext, MainEditorAreaVisibleContext, IsMainWindowFullscreenContext, PanelPositionContext, IsAuxiliaryWindowFocusedContext, TitleBarStyleContext } from '../../common/contextkeys.js';
 import { Codicon } from '../../../base/common/codicons.js';
 import { ThemeIcon } from '../../../base/common/themables.js';
 import { DisposableStore } from '../../../base/common/lifecycle.js';
@@ -322,6 +322,55 @@ export class ToggleSidebarVisibilityAction extends Action2 {
 }
 
 registerAction2(ToggleSidebarVisibilityAction);
+
+// --- Toggle Chat Visibility
+
+export class ToggleChatVisibilityAction extends Action2 {
+
+	static readonly ID = 'workbench.action.toggleChatVisibility';
+	static readonly LABEL = localize('compositePart.hideChatLabel', "Hide Chat Panel");
+
+	constructor() {
+		super({
+			id: ToggleChatVisibilityAction.ID,
+			title: localize2('toggleChat', 'Toggle Chat Panel Visibility'),
+			toggled: {
+				condition: ChatVisibleContext,
+				title: localize('chat panel', "Chat Panel"),
+				mnemonicTitle: localize({ key: 'chat panel mnemonic', comment: ['&& denotes a mnemonic'] }, "&&Chat Panel"),
+			},
+			metadata: {
+				description: localize('openAndCloseChat', 'Open/Show and Close/Hide Chat Panel'),
+			},
+			category: Categories.View,
+			f1: true,
+			keybinding: {
+				weight: KeybindingWeight.WorkbenchContrib,
+				primary: KeyMod.CtrlCmd | KeyMod.Shift | KeyCode.KeyJ
+			},
+			menu: [
+				{
+					id: MenuId.LayoutControlMenuSubmenu,
+					group: '0_workbench_layout',
+					order: 1
+				},
+				{
+					id: MenuId.MenubarAppearanceMenu,
+					group: '2_workbench_layout',
+					order: 2
+				}
+			]
+		});
+	}
+
+	run(accessor: ServicesAccessor): void {
+		const layoutService = accessor.get(IWorkbenchLayoutService);
+
+		layoutService.setPartHidden(layoutService.isVisible(Parts.CHAT_PART), Parts.CHAT_PART);
+	}
+}
+
+registerAction2(ToggleChatVisibilityAction);
 
 MenuRegistry.appendMenuItems([
 	{
